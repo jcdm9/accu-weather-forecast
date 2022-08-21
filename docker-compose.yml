@@ -1,0 +1,36 @@
+version: '3.2'
+
+networks:
+  tn:
+    driver: bridge
+
+volumes:
+  server_nm:
+    driver: local
+
+services:
+  server_api:
+    build: ./back-end/
+    container_name: server_api
+    ports:
+      - "3000:3000"
+    volumes:
+      - "./back-end:/app"
+      - "server_nm:/app/node_modules"
+      - "./back-end/.env:/app/.env"
+    networks:
+      - tn
+    command: ["sh", "-c", "npm run dev"]
+
+  client_cli:
+    build: ./front-end/
+    container_name: client_cli
+    ports:
+      - "8080:8080"
+    volumes:
+      - "./front-end:/app"
+    depends_on:
+      - server_api
+    networks:
+      - tn
+    command: ["sh", "-c", "http-server"]
