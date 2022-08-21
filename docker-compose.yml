@@ -17,7 +17,7 @@ services:
     volumes:
       - "./back-end:/app"
       - "server_nm:/app/node_modules"
-      - "./back-end/.env:/app/.env"
+      - "./back-end/.env.production:/app/.env"
     networks:
       - tn
     command: ["sh", "-c", "npm run dev"]
