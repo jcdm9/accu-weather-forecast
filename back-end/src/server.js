@@ -1,5 +1,6 @@
 // libraries
 const express = require('express')
+const cors = require('cors')
 const swaggerJsDoc = require('swagger-jsdoc')
 const swaggerUI = require('swagger-ui-express')
 const app = express()
@@ -22,7 +23,13 @@ const specs = swaggerJsDoc(options)
 // routes
 const accuWeatherRoute = require('./routes/accu-weather')
 
+// config
+app.use(cors())
+
 // api
+app.get('/', (req, res) => {
+  res.send('Welcome to AccuWeather API Forecast!')
+})
 app.use('/api-docs', swaggerUI.serve, swaggerUI.setup(specs))
 app.use('/api/accu-weather', accuWeatherRoute)
 
